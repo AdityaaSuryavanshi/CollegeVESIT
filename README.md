@@ -6,12 +6,12 @@
 
 int height=21,width=28;
 int x=21,y=14,redo,multiplayer=0,randomizer=0,obstacleX=3,obstacleY=14,flag=0,score=0,gameEnd=0,flag2,n;
-float slepn=1;
+float slepn=0.99;
 
 char car(int coord)
 {
     int m,n,p,q;
-    printf("A\n");
+    printf("_\n");
     for(m=0;m<=coord+1;m++)
     {
         if(m==coord-1)
@@ -65,7 +65,7 @@ char car(int coord)
     {
         if(q==coord)
         {
-        printf("-");
+        printf("v");
         }
         else{
             printf(" ");
@@ -120,26 +120,19 @@ void track()
 {
     system("cls");
     int i,j;
-    for(i=0;i<=height;i++)
-    {
-        for(j=0;j<=width;j++)
-        {
-            if(j==0 || j==width)
-            {
+    for(i=0;i<=height;i++){
+        for(j=0;j<=width;j++){
+            if(j==0 || j==width){
                 printf("|");
             }
-            else
-            {
-                if(i==x && j==y)
-                {
+            else{
+                if(i==x && j==y){
                     car(y);
                 }
-                else if(i==obstacleX && j==obstacleY)
-                {
+                else if(i==obstacleX && j==obstacleY){
                     car(obstacleY);
                 }
-                else
-                {
+                else{
                     printf(" ");
                 }
             }
@@ -157,19 +150,14 @@ void input()
     {
         switch(getch())
         {
-            case 'a':
-            {
-                if(y>4)
-                {
-                    y=y-10;
-                }
-                break;
-            }
-            case 'd':
-            {
-                if(y<24)
-                {
-                    y=y+10;
+            case 'a':{
+                if(y>4){
+                    y-=10;
+                    }
+                break;}
+            case 'd':{
+                if(y<24){
+                    y+=10;
                 }
                 break;
             }
@@ -199,40 +187,26 @@ void random()
     }
 }
 
-void multi()
-{
-    if(kbhit())
-    {
-        switch(getch())
-        {
-            case 'a':
-            {
-                if(y>4)
-                {
-                    y=y-10;
-                }
+void multi(){
+    if(kbhit()){
+        switch(getch()){
+            case 'a':{
+                if(y>4){
+                    y-=10;}
                 break;
             }
-            case 'd':
-            {
-                if(y<24)
-                {
-                    y=y+10;
-                }
+            case 'd':{
+                if(y<24){
+                    y+=10;}
                 break;
             }
-            case 'j':
-            {
-                if(obstacleY>4)
-                {
-                    obstacleY=obstacleY-10;
-                }
+            case 'j':{
+                if(obstacleY>4){
+                    obstacleY-=10;}
                 break;
             }
-            case 'l':
-            {
-                if(obstacleY<24)
-                {
+            case 'l':{
+                if(obstacleY<24){
                     obstacleY=obstacleY+10;
                 }
                 break;
@@ -247,45 +221,55 @@ void loop()
     {
         random();
         obstacleX=0;
-        score=score+10;
-        slepn=slepn-0.1;
-        if(score==190)
-    {
-        slepn=0.8;
-    }
-    }
-    obstacleX++;
-
-}
-
-void multiloop()
-{
-    if(obstacleX>21)
-    {
-        obstacleX=0;
-        score=score+10;
+        score+=10;
         slepn=0.9;
     }
     obstacleX++;
 }
 
-void end()
-{
-    if(y==obstacleY && x==obstacleX)
-    {
-        gameEnd=1;
-    }
+void multiloop(){
+    if(obstacleX>21)
+        {
+        obstacleX=0;
+        score+=10;
+        slepn=0.9;
+        if(score==200)
+        {
+            gameEnd=1;
+        }
+        }
+    obstacleX++;
+}
+
+void end(){
+    if(y==obstacleY && x==obstacleX){
+        gameEnd=1;}
 }
 
 int endDisplay()
 {
     if(score>=300)
     {
-        printf("\nYour score is %d!\n\nYou have acheived one of the highest scores!Congrats!!\n",score);
+        printf("\nYour score is %d!\n\nYou have achieved one of the highest scores!Congrats!!\n",score);
     }
     else
     {
         printf("Your score %d!\n\nYou did great!\n",score);
+    }
+    printf("Do you wish to continue the game?\n1.Retry\n2.Exit\n");
+    scanf("%d",&redo);
+    return redo;
+}
+
+
+int endDisplay2(){
+    if(score>=200)
+    {
+        printf("Your score:%d\n No collision occured! Player 1,victory is yours.\n",score);
+    }
+    else
+    {
+        printf("The cars collided!Player 2,victory is yours.\n");
     }
     printf("Do you wish to continue the game?\n1.Retry\n2.Exit\n");
     scanf("%d",&redo);
@@ -316,10 +300,8 @@ int main()
         }
     }
     }
-    else if(multiplayer==1)
-    {
-        while(gameEnd!=1)
-    {
+    else if(multiplayer==1){
+        while(gameEnd!=1){
         sleep(slepn);
         multi();
         track();
@@ -327,7 +309,7 @@ int main()
         multiloop();
         if(gameEnd==1)
         {
-            endDisplay();
+            endDisplay2();
             if(redo==1)
             {
                 score=0;
@@ -339,7 +321,7 @@ int main()
     if(gameEnd==1)
     {
         system("cls");
-        printf("\n");
+        printf("Thank you for playing\n");
     }
     return 0;
 }
