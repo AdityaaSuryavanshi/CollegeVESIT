@@ -110,7 +110,7 @@ void display()
     else if(multiplayer==1)
     {
         system("cls");
-        printf("The controls of the game are \n Player 1:-\n A = Left \n D = Right  \n\n\n FOR MULTIPLAYER \n J = Left  \n L = Right \n\n\n");
+        printf("The controls of the game are \n Player 1:-\n A = Left \n D = Right  \n\n\n FOR MULTIPLAYER \n J = Left  \n L = Right \n\nWARNING:- GAME SPEED INCREASES AFTER THE FIRST LOOP\n");
         sleep(2);
     }
 }
@@ -263,7 +263,7 @@ void multiloop()
     {
         obstacleX=0;
         score=score+10;
-        slepn=0.8;
+        slepn=0.9;
     }
     obstacleX++;
 }
