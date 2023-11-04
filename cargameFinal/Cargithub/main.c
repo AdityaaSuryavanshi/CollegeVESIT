@@ -4,54 +4,85 @@
 #include <unistd.h>
 
 int height=21,width=28;
-int x=21,y=14,multiplayer=0,randomizer=0,obstacleX=3,obstacleY=10,flag=0,score=0,gameEnd=0,flag2;
+int x=21,y=14,redo,multiplayer=0,randomizer=0,obstacleX=3,obstacleY=14,flag=0,score=0,gameEnd=0,flag2,n;
 float slepn=1;
 
-char car(coord){
+int endDisplay()
+{
+    if(score==200)
+    {
+        printf("Your score is %d!\n\n You have acheived the highest score!\n",score);
+    }
+    else
+    {
+        printf("Your score %d!\n\nYou did great!\n",score);
+    }
+    printf("Do you wish to continue the game?\n1.Return\n2.Exit\n");
+    scanf("%d",&redo);
+    return redo;
+}
+
+char car(int coord)
+{
     int m,n,p,q;
     printf("A\n");
-    for(m=0;m<=coord+1;m++){
-       if(m==coord-1){
+    for(m=0;m<=coord+1;m++)
+    {
+        if(m==coord-1)
+        {
             printf("/");
         }
-        else if(m==coord+1){
-             printf("\\ \n");
+        else if(m==coord+1)
+        {
+            printf("\\ \n");
         }
-        else{
-         printf(" ");
+        else
+        {
+            printf(" ");
         }
     }
-    for(n=0;n<=coord+2;n++){
-       if(n==coord-2){
-          printf("|");
+    for(n=0;n<=coord+2;n++)
+    {
+        if(n==coord-2)
+        {
+            printf("|");
         }
-        else if(n==coord){
-          printf("o");
+        else if(n==coord)
+        {
+            printf("o");
         }
-        else if(n==coord+2){
-         printf("| \n");
+        else if(n==coord+2)
+        {
+            printf("| \n");
         }
-        else{
-          printf(" ");
-        }
-        }
-    for(p=0;p<=coord+1;p++){
-        if(p==coord-1){
-            printf("\\");
-            }
-        else if(p==coord+1){
-           printf("/\n");
-        }
-        else{
+        else
+        {
             printf(" ");
         }
         }
-    for(q=0;q<=coord;q++){
-        if(q==coord){
-        printf("v");
+    for(p=0;p<=coord+1;p++)
+    {
+        if(p==coord-1)
+        {
+            printf("\\");
+            }
+        else if(p==coord+1)
+        {
+            printf("/\n");
+        }
+        else
+        {
+            printf(" ");
+        }
+        }
+    for(q=0;q<=coord;q++)
+    {
+        if(q==coord)
+        {
+        printf("-");
         }
         else{
-         printf(" ");
+            printf(" ");
         }
     }
     return 0;
@@ -63,6 +94,21 @@ void multi()
     {
         switch(getch())
         {
+            case 'a':
+            {
+                y=4;
+                break;
+            }
+            case 's':
+            {
+                y=14;
+                break;
+            }
+            case 'd':
+            {
+                y=24;
+                break;
+            }
             case 'j':
             {
                 obstacleY=4;
@@ -82,17 +128,17 @@ void multi()
     }
 }
 
-int select(a)
+int select(int a)
 {
         switch(a)
         {
-            case 1:
+            case 2:
             {
                 multiplayer=1;
                 return multiplayer;
                 break;
             }
-            case 2:
+            case 1:
             {
                 randomizer=1;
                 return randomizer;
@@ -103,10 +149,25 @@ int select(a)
 
 void display()
 {
+    printf("Hello! Welcome to SPEED FOR NEED.\nWe hope you enjoy it!\n\n");
+    sleep(3);
     int a;
-    printf("Hello!\nPlease select which mode you would like to play the game in\n1.Multiplayer\n2.Randomizer\n");
+    printf("Please select which mode you would like to play the game in\n1.Single Player\n2.Multiplayer\n");
     scanf("%d",&a);
     select(a);
+    sleep(1);
+    if(randomizer==1)
+    {
+        system("cls");
+        printf("The controls of the game are \n Player control:-\n A = track 1 \n S = track 2 \n D = track 3\n\nWARNING:- GAME SPEED INCREASES AFTER THE FIRST LOOP\n");
+        sleep(2);
+    }
+    else if(multiplayer==1)
+    {
+        system("cls");
+        printf("The controls of the game are \n Player 1:-\n A = track 1 \n S = track 2 \n D = track 3 \n\n\n FOR MULTIPLAYER \n J = track 1 \n K = track 2 \n L = track 3\n\n\n");
+        sleep(2);
+    }
 }
 
 void random()
@@ -187,11 +248,18 @@ void track()
         }
         printf("\n");
     }
+    for(n=0;n<=width;n++){
+        printf("_");
+    }
 }
 
 void end()
 {
-    if(y==obstacleY && x==obstacleX)
+    if(score==200)
+    {
+        gameEnd=1;
+    }
+    else if(y==obstacleY && x==obstacleX)
     {
         gameEnd=1;
     }
@@ -204,7 +272,7 @@ void loop()
         random();
         obstacleX=0;
         score=score+10;
-        slepn=1;
+        slepn=slepn-0.1;
     }
     obstacleX++;
 
@@ -216,7 +284,7 @@ void multiloop()
     {
         obstacleX=0;
         score=score+10;
-        slepn=1;
+        slepn=slepn;
     }
     obstacleX++;
 
@@ -235,8 +303,15 @@ int main()
         track();
         end();
         loop();
-
-        printf("score: %d",score);
+        if(gameEnd==1)
+        {
+            endDisplay();
+            if(redo==1)
+            {
+                score=0;
+                gameEnd=0;
+            }
+        }
     }
     }
     else if(multiplayer==1)
@@ -244,18 +319,25 @@ int main()
         while(gameEnd!=1)
     {
         sleep(slepn);
-        input();
         multi();
         track();
         end();
         multiloop();
-
-        printf("score: %d\n",score);
+        if(gameEnd==1)
+        {
+            endDisplay();
+            if(redo==1)
+            {
+                score=0;
+                gameEnd=0;
+            }
+        }
     }
     }
     if(gameEnd==1)
     {
-        printf("Your score is %d\n",score);
+        system("cls");
+        printf("\n");
     }
     return 0;
 }
