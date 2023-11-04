@@ -250,7 +250,7 @@ void loop()
         slepn=slepn-0.1;
         if(score==190)
     {
-        slepn=0.9;
+        slepn=0.8;
     }
     }
     obstacleX++;
@@ -263,7 +263,7 @@ void multiloop()
     {
         obstacleX=0;
         score=score+10;
-        slepn=0.9;
+        slepn=0.8;
     }
     obstacleX++;
 }
