@@ -1,3 +1,4 @@
+//car game!
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
@@ -110,7 +111,7 @@ void display()
     else if(multiplayer==1)
     {
         system("cls");
-        printf("The controls of the game are \n Player 1:-\n A = Left \n D = Right  \n\n\n FOR MULTIPLAYER \n J = Left  \n L = Right \n\n\n");
+        printf("The controls of the game are \n Player 1:-\n A = Left \n D = Right  \n\n\n FOR MULTIPLAYER \n J = Left  \n L = Right \n\nWARNING:- GAME SPEED INCREASES AFTER THE FIRST LOOP\n");
         sleep(2);
     }
 }
@@ -250,7 +251,7 @@ void loop()
         slepn=slepn-0.1;
         if(score==190)
     {
-        slepn=0.9;
+        slepn=0.8;
     }
     }
     obstacleX++;
@@ -341,5 +342,4 @@ int main()
         printf("\n");
     }
     return 0;
-}
 }
